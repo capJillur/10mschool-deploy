@@ -37,10 +37,7 @@ For development with hot reload, run `npm run dev` in a second terminal.
 The seed creates 14 categories, 45 real 10 Minute School courses (with their public thumbnails) and one
 admin account:
 
-| Field    | Value                  |
-| -------- | ---------------------- |
-| Email    | admin@10mschool.test   |
-| Password | password               |
+
 
 Change the password from the admin panel before deploying. Public registration is disabled; create
 additional admins with `php artisan tinker` and set `is_admin` to true.
