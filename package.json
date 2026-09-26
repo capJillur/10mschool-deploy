@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@inertiajs/react": "^2.3",
+        "@tailwindcss/vite": "^4.1",
+        "@vitejs/plugin-react": "^6.1",
+        "axios": "^1.7",
+        "laravel-vite-plugin": "^3.2",
+        "react": "^19.0",
+        "react-dom": "^19.0",
+        "tailwindcss": "^4.1",
+        "vite": "^8.0"
+    },
+    "dependencies": {
+        "@phosphor-icons/react": "^2.1",
+        "motion": "^12.0"
+    }
+}

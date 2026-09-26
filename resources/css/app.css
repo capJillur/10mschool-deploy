@@ -1,0 +1,264 @@
+@import 'tailwindcss';
+
+@source '../views';
+@source '../js';
+
+/* Dark mode is a manual choice (header toggle), not the OS setting. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+  Design tokens. One palette for the whole site:
+  warm stone neutrals + the 10 Minute School brand red as the single accent.
+  Shape rule: buttons are pills, cards are 20px, inputs are 12px.
+*/
+@theme {
+    --font-sans: 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+
+    --color-brand-50: #fef2f2;
+    --color-brand-100: #fde3e4;
+    --color-brand-200: #fbc9cb;
+    --color-brand-300: #f6a1a5;
+    --color-brand-400: #ee6a71;
+    --color-brand-500: #e23f47;
+    --color-brand-600: #d9232e;
+    --color-brand-700: #b3171f;
+    --color-brand-800: #94161d;
+    --color-brand-900: #7b171d;
+    --color-brand-950: #43070a;
+
+    --color-surface: var(--surface);
+    --color-surface-2: var(--surface-2);
+    --color-surface-3: var(--surface-3);
+    --color-ink: var(--ink);
+    --color-ink-2: var(--ink-2);
+    --color-ink-3: var(--ink-3);
+    --color-line: var(--line);
+    --color-line-2: var(--line-2);
+
+    --color-sun: var(--sun);
+    --color-sun-ink: var(--sun-ink);
+    --color-sky: var(--sky);
+    --color-sky-ink: var(--sky-ink);
+    --color-mint: var(--mint);
+    --color-mint-ink: var(--mint-ink);
+    --color-berry: var(--berry);
+    --color-berry-ink: var(--berry-ink);
+    --color-rose: var(--rose);
+    --color-rose-ink: var(--rose-ink);
+
+    --radius-card: 16px;
+    --radius-band: 24px;
+    --radius-btn: 12px;
+    --radius-input: 10px;
+
+    --shadow-card: 0 1px 2px rgb(28 25 23 / 0.04);
+    --shadow-card-hover: 0 2px 4px rgb(28 25 23 / 0.04), 0 16px 40px -16px rgb(28 25 23 / 0.18);
+    --shadow-pop: 0 20px 60px -20px rgb(28 25 23 / 0.35);
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+    --surface: #fafaf9;
+    --surface-2: #ffffff;
+    --surface-3: #f5f5f4;
+    --ink: #1c1917;
+    --ink-2: #57534e;
+    --ink-3: #a8a29e;
+    --line: #e7e5e4;
+    --line-2: #d6d3d1;
+    /* Secondary tints: used for banners, class tiles, category cards and section bands. CTAs stay brand red. */
+    --sun: #ffe89c;
+    --sun-ink: #6b4300;
+    --sky: #cfe6ff;
+    --sky-ink: #0b3f7a;
+    --mint: #c9f2dd;
+    --mint-ink: #0c4d31;
+    --berry: #e3d9ff;
+    --berry-ink: #3d2385;
+    --rose: #ffd9db;
+    --rose-ink: #8a141c;
+    color-scheme: light;
+}
+
+
+:root[data-theme='dark'] {
+    --surface: #0c0a09;
+    --surface-2: #171412;
+    --surface-3: #1f1b19;
+    --ink: #fafaf9;
+    --ink-2: #b8b2ad;
+    --ink-3: #78716c;
+    --line: #292524;
+    --line-2: #3b3533;
+    --sun: #4a3300;
+    --sun-ink: #ffdf80;
+    --sky: #0f2f52;
+    --sky-ink: #a9d2ff;
+    --mint: #0d3a27;
+    --mint-ink: #9ae9be;
+    --berry: #2a1a5c;
+    --berry-ink: #cdbcff;
+    --rose: #4a0d12;
+    --rose-ink: #ffb3b8;
+    color-scheme: dark;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: transparent;
+    }
+    body {
+        background-color: var(--surface);
+        color: var(--ink);
+        text-rendering: optimizeLegibility;
+        line-height: 1.6;
+    }
+    /* Bangla display type: Anek Bangla for headings, no negative tracking, room for matras. */
+    h1,
+    h2,
+    h3,
+    .font-display {
+        font-family: var(--font-display);
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+        font-feature-settings: 'kern' 1;
+    }
+    ::selection {
+        background: var(--color-brand-600);
+        color: white;
+    }
+    :focus-visible {
+        outline: 2px solid var(--color-brand-600);
+        outline-offset: 2px;
+    }
+    img {
+        color: transparent;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@utility container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1280px;
+    padding-inline: 1rem;
+    @media (min-width: 640px) {
+        padding-inline: 1.5rem;
+    }
+    @media (min-width: 1024px) {
+        padding-inline: 2rem;
+    }
+}
+
+/* Horizontal scroll rail whose first card lines up with the page container. */
+@utility rail {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-inline: 1rem;
+    scroll-padding-inline: 1rem;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    @media (min-width: 640px) {
+        padding-inline: 1.5rem;
+        scroll-padding-inline: 1.5rem;
+    }
+    @media (min-width: 1024px) {
+        padding-inline: max(2rem, calc((100vw - 1280px) / 2 + 2rem));
+        scroll-padding-inline: max(2rem, calc((100vw - 1280px) / 2 + 2rem));
+    }
+}
+
+@utility text-balance {
+    text-wrap: balance;
+}
+
+@utility scrollbar-none {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@utility card-surface {
+    background-color: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+@keyframes float-y {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@utility float-slow {
+    @media (prefers-reduced-motion: no-preference) {
+        animation: float-y 6s ease-in-out infinite;
+    }
+}
+
+@utility shine {
+    position: relative;
+    overflow: hidden;
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-120%) skewX(-16deg);
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+        transition: transform 0.7s var(--ease-out-expo);
+        pointer-events: none;
+    }
+    &:hover::after {
+        transform: translateX(120%) skewX(-16deg);
+    }
+}
+
+@keyframes shimmer {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@utility skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--surface-3);
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+        animation: shimmer 1.6s infinite;
+    }
+    :root[data-theme='dark'] &::after {
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.06), transparent);
+    }
+}
